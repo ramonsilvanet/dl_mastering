@@ -8,7 +8,7 @@ seed = 7
 numpy.random.seed(seed)
 
 #carregando o dataset
-dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",")
+dataset = numpy.loadtxt("data/pima-indians-diabetes.csv", delimiter=",")
 
 #quebrando a entrada em x e a saida em y
 X = dataset[:,0:8]
