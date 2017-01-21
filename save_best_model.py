@@ -1,8 +1,8 @@
 #Criando a minha primeira rede neural com keras
+import numpy
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.callbacks import TensorBoard
-import numpy
+from keras.callbacks import ModelCheckpoint
 
 #fixando a seed aleatoria para manter a reprodutibilidade
 seed = 7
@@ -24,11 +24,12 @@ model.add(Dense(1, init='uniform', activation='sigmoid'))
 #compilando o modelo
 model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['accuracy'])
 
-TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True, write_images=False)
+#criando o callback para salvar o melhor modelo
+checkpoint = ModelCheckpoint('weights.best.hdf5', monitor='val_acc', save_best_only=True, mode='max')
+callback_list = [checkpoint]
 
 #ajustando o modelo
-history = model.fit(X, Y, nb_epoch=150, batch_size=10)
-print(history.history.keys())
+model.fit(X, Y, nb_epoch=150, batch_size=10, callbacks=callback_list)
 
 #estimando a performance do modelo
 scores = model.evaluate(X, Y)
